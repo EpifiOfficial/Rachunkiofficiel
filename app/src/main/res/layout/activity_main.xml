@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkThemeColorPrimary"
+    tools:context=".MainActivity">
+
+
+
+    <com.polyak.iconswitch.IconSwitch
+        android:id="@+id/Switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:isw_thumb_color_left="@color/accentColorCreative"
+        app:isw_thumb_color_right="@color/dayColor"
+        app:isw_icon_left="@drawable/ic_night"
+        app:isw_icon_right="@drawable/ic_day"
+        app:isw_inactive_tint_icon_left="#fff"
+        app:isw_inactive_tint_icon_right="#fff"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <ImageView
+        android:id="@+id/Logo"
+        android:layout_width="44dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_rachunki_logo_white"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        />
+
+
+<RelativeLayout
+    android:layout_below="@id/Logo"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    >
+    <include layout="@layout/cell_wallets"/>
+
+</RelativeLayout>
+
+
+</RelativeLayout>

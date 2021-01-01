@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Rachunki</string>
+    <string name="wallets">wallets</string>
+    <string name="card">card</string>
+    <string name="outcome">outcome</string>
+    <string name="income">income</string>
+</resources>
