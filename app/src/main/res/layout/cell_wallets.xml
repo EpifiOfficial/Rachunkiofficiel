@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,6 +21,11 @@
             android:layout_marginStart="15dp"
             android:layout_alignParentTop="true"
             android:text="@string/wallets" />
+        <!-- Wallets cells -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/VPWallets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <LinearLayout
             android:id="@+id/LlWallets"
             android:layout_centerHorizontal="true"
