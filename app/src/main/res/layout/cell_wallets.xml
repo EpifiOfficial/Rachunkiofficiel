@@ -22,25 +22,12 @@
             android:layout_alignParentTop="true"
             android:text="@string/wallets" />
         <!-- Wallets cells -->
-        <LinearLayout
-            android:id="@+id/LlWallets"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RVWallets"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
             android:layout_below="@id/TvWallets"
-            >
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/VPWallets"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="true"
-                android:foregroundGravity="center"
-                android:overScrollMode="never"
-                android:orientation="horizontal"
-
-                />
-        </LinearLayout>
-
+            />
        <!-- <LinearLayout
             android:id="@+id/LlWallets"
             android:layout_centerHorizontal="true"
@@ -57,7 +44,7 @@
         -->
         <androidx.cardview.widget.CardView
             android:id="@+id/PieChart"
-            android:layout_below="@id/LlWallets"
+            android:layout_below="@id/RVWallets"
             android:layout_width="150dp"
             android:layout_height="150dp"
             app:cardCornerRadius="360dp"

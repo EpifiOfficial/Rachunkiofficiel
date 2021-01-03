@@ -2,13 +2,20 @@ package com.epifi.rachunkiofficiel
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
+import com.epifi.rachunkiofficiel.Adapters.RecyclerViewAdapter
 import com.epifi.rachunkiofficiel.Adapters.ViewPagerAdapter
 import com.epifi.rachunkiofficiel.Models.WalletModel
 
 class MainActivity : AppCompatActivity() {
 
+    private var layoutManager:RecyclerView.LayoutManager?=null
+    private var adapter: RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>? = null
+
+    //Arrays
     private var titleList = mutableListOf<String>()
     private var amountList = mutableListOf<String>()
 
@@ -16,9 +23,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         postToList()
-        val viewPager = findViewById<ViewPager2>(R.id.VPWallets)
-        viewPager.adapter = ViewPagerAdapter(titleList,amountList)
-        viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+
+        layoutManager = LinearLayoutManager(this)
+        val recyclerView = findViewById<RecyclerView>(R.id.RVWallets);
+        adapter = RecyclerViewAdapter(titleList,amountList)
+        recyclerView.adapter = adapter
+
+
+
+
+
+
+
+
+
 
     }
     private fun addToList(title:String,amountWallet:String){
