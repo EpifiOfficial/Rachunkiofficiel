@@ -2,8 +2,10 @@ package com.epifi.rachunkiofficiel
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.epifi.rachunkiofficiel.Adapters.ViewPagerAdapter
+import com.epifi.rachunkiofficiel.Models.WalletModel
 
 class MainActivity : AppCompatActivity() {
 

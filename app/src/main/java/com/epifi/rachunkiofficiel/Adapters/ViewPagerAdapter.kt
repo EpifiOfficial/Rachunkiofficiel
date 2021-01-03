@@ -3,6 +3,7 @@ package com.epifi.rachunkiofficiel.Adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.inflate
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,9 @@ class ViewPagerAdapter(private val walletTitle:List<String>,private  val walletA
     inner class ViewPagerHolder(itemView:View):RecyclerView.ViewHolder(itemView){
         val itemWalletTitle : TextView = itemView.findViewById(R.id.TvWalletTitle)
         val itemWalletAmount : TextView = itemView.findViewById(R.id.TvWalletAmount)
+        init {
 
+        }
 
 
 
@@ -24,7 +27,9 @@ class ViewPagerAdapter(private val walletTitle:List<String>,private  val walletA
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewPagerAdapter.ViewPagerHolder {
-        return ViewPagerHolder(LayoutInflater.from(parent.context).inflate(R.layout.cell_wallet,parent,false))
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.cell_wallet,parent,false)
+        view.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        return ViewPagerHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewPagerAdapter.ViewPagerHolder, position: Int) {
