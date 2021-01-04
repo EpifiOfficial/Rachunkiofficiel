@@ -10,7 +10,10 @@
     <color name="dayColor">#FEB538</color>
     -----Accent colors-----
     <color name="accentColorCreative">#00BCD4</color>
+    <color name="accentColorCreativeClicked">#9900BCD4</color>
     <color name="accentColorDestructive">#FF4081</color>
+    <color name="accentColorDestructiveClicked">#99FF4081</color>
+
 
     -----Dark theme Colors-----
     <color name="darkThemeColorPrimary">#3B3E72</color>

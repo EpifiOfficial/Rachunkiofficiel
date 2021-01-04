@@ -1,23 +1,26 @@
 package com.epifi.rachunkiofficiel
 
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.widget.ViewPager2
 import com.epifi.rachunkiofficiel.Adapters.RecyclerViewAdapter
-import com.epifi.rachunkiofficiel.Adapters.ViewPagerAdapter
-import com.epifi.rachunkiofficiel.Models.WalletModel
+import com.takusemba.multisnaprecyclerview.MultiSnapHelper
+import java.security.AccessController.getContext
+import java.text.FieldPosition
+import java.time.OffsetTime
+
 
 class MainActivity : AppCompatActivity() {
 
-    private var layoutManager:RecyclerView.LayoutManager?=null
-    private var adapter: RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>? = null
 
     //Arrays
     private var titleList = mutableListOf<String>()
     private var amountList = mutableListOf<String>()
+    lateinit var recyclerView:RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,28 +28,40 @@ class MainActivity : AppCompatActivity() {
         postToList()
 
 
-        layoutManager = LinearLayoutManager(this)
-        val recyclerView = findViewById<RecyclerView>(R.id.RVWallets);
-        adapter = RecyclerViewAdapter(titleList,amountList)
-        recyclerView.adapter = adapter
+        recyclerView = findViewById<RecyclerView>(R.id.RVWallets);
+        recyclerView.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        recyclerView.adapter =RecyclerViewAdapter(titleList, amountList)
 
 
 
 
-
-
-
-
-
+        //Adding multisnap to the recyclerview
+        val multiSnapHelper = MultiSnapHelper(MultiSnapHelper.DEFAULT_GRAVITY, 1, 200F)
+        multiSnapHelper.attachToRecyclerView(recyclerView)
 
     }
-    private fun addToList(title:String,amountWallet:String){
+
+
+    private fun addToList(title: String, amountWallet: String){
         titleList.add(title)
         amountList.add(amountWallet)
     }
+
+
+
     private fun postToList(){
-        for (i in 1..5){
-            addToList("Title$i","amount$i")
-        }
+            addToList("Title$", "amount$")
+
     }
+
+
+
+
+
+
+
 }
