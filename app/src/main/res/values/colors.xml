@@ -23,8 +23,14 @@
     <color name="whiteThemeColorPrimary">#ffffff</color>
     <color name="whiteThemeColorPrimaryDark">#C0C0C0</color>
 
-    -----Text colors-----
+    -----Text colors light theme-----
     <color name="primaryText">#151A3C</color>
+    <color name="secondaryText">#99151A3C</color>
     <color name="walletTitleText">#99FFFFFF</color>
+
+
+
+    -----Blurry background-----
+    <color name="blurry_background">#0F000000</color>
 
 </resources>

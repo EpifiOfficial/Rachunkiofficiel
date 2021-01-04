@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="2dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginStart="5dp"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/TvTitleAddAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_income"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/primaryText"
+        android:textSize="27sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:layout_alignParentTop="true"
+        />
+
+    <TextView
+        android:id="@+id/TvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date"
+        android:textColor="@color/secondaryText"
+        android:textSize="15sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/TvTitleAddAccount"
+        android:fontFamily="@font/montserrat_bold"
+        android:layout_marginTop="-5dp"
+        />
+
+        <TextView
+            android:id="@+id/TvAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/amount"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/TvDate"
+            android:textSize="37sp"
+            android:textColor="@color/accentColorCreative"
+            />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/CvEtAccountName"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_below="@id/TvAmount"
+            android:layout_marginTop="20dp"
+            app:cardElevation="5dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/account_name"
+                    android:background="@color/blurry_background"
+                    android:layout_margin="10dp"
+                    android:textColorHint="@color/secondaryText"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:paddingStart="16dp"
+                    android:textSize="17sp"
+                    />
+
+
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
