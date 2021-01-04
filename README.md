@@ -1,0 +1,2 @@
+# Rachunkiofficiel
+Personal finance app
