@@ -9,6 +9,8 @@
 
 
 
+
+
     <com.polyak.iconswitch.IconSwitch
         android:id="@+id/Switch"
         android:layout_width="wrap_content"
