@@ -32,5 +32,6 @@
 
     -----Blurry background-----
     <color name="blurry_background">#0F000000</color>
+    <color name="blurry_background_new_income">#991C2754</color>
 
 </resources>

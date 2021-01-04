@@ -5,6 +5,8 @@
     <string name="outcome">outcome</string>
     <string name="income">income</string>
     <string name="new_income">new income</string>
+    <string name="new_account">new account</string>
+
     <string name="date">mier,30 diciembre</string>
     <string name="amount">0$</string>
     <string name="account_name">  account name</string>
