@@ -1,5 +1,3 @@
 package com.epifi.rachunkiofficiel.Models
 
-data class WalletModel (var walletTitle: String,var walletAmount: String ){
-
-}
+data class WalletModel (val WalletAmount: String="0€", val WalletTitle: String="DefaultTitle")

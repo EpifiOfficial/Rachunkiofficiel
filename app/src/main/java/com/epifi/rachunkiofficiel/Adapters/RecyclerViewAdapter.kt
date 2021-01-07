@@ -29,8 +29,8 @@ class RecyclerViewAdapter(private val context:Context):RecyclerView.Adapter<Recy
         val CVBackground: CardView = itemView.findViewById(R.id.CvWallet)
 
         fun bindView(wallet:WalletModel){
-            itemWalletTitle.text = wallet.walletTitle
-            itemWalletAmount.text = wallet.walletAmount
+            itemWalletTitle.text = wallet.WalletTitle
+            itemWalletAmount.text = wallet.WalletAmount
 
 
 }
@@ -64,10 +64,10 @@ class RecyclerViewAdapter(private val context:Context):RecyclerView.Adapter<Recy
     }
 
     override fun getItemCount(): Int {
-        return if (walletsList.size>0){
-            walletsList.size
+        if (walletsList.size>0){
+            return walletsList.size
         }else{
-            0
+           return 0
         }
     }
 }

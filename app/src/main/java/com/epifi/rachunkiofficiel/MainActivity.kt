@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.epifi.rachunkiofficiel.Adapters.RecyclerViewAdapter
 import com.epifi.rachunkiofficiel.Models.WalletViewModel
 import com.google.android.gms.common.api.internal.ActivityLifecycleObserver.of
-import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.takusemba.multisnaprecyclerview.MultiSnapHelper
 import es.dmoral.toasty.Toasty
@@ -63,16 +65,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
+        FirebaseApp.initializeApp(this);
+        val db = FirebaseFirestore.getInstance()
         numberinterface()
-        recyclerView.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
+        recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = adapter
+        observeData()
         //Adding multisnap to the recyclerview
         val multiSnapHelper = MultiSnapHelper(MultiSnapHelper.DEFAULT_GRAVITY, 1, 200F)
         multiSnapHelper.attachToRecyclerView(recyclerView)
+        if (adapter.equals(null)){
+            //set layout visible
+            cellNewWallet.visibility = View.VISIBLE
+            newWallet()
+        }
         //Button add wallet action
         btnAddWallet.setOnClickListener {
             //set layout visible
@@ -85,9 +91,13 @@ class MainActivity : AppCompatActivity() {
                 Toasty.info(this, getString(R.string.fill_all_the_gaps), Toast.LENGTH_SHORT, true).show()
             }else{
                 postToList()
+                uploadToFirestore()
                 //set layout invisible
                 cellNewWallet.visibility = View.INVISIBLE
-
+                amount="0"
+                textAmount.text = amount
+                EtNote.text.clear()
+                observeData()
 
             }
         }
@@ -102,10 +112,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun observeData(){
+
         viewModel.fetchWalletData().observe(this, androidx.lifecycle.Observer {
             adapter.setListWallets(it)
             adapter.notifyDataSetChanged()
         })
+
     }
 
 
@@ -157,10 +169,10 @@ class MainActivity : AppCompatActivity() {
     }
     private fun uploadToFirestore(){
         // Access a Cloud Firestore instance from your Activity
-        val db = Firebase.firestore
+        val db = FirebaseFirestore.getInstance()
         val wallet = hashMapOf(
-                "WalletAmount" to amount,
-                "WalletName" to EtNote.text.toString()
+                "WalletTitle" to EtNote.text.toString(),
+                "WalletAmount" to amount
         )
 
 
@@ -168,10 +180,10 @@ class MainActivity : AppCompatActivity() {
 
         db.collection("Wallets").add(wallet).
         addOnSuccessListener { documentReference ->
-
+            Toasty.success(this, "Success!", Toast.LENGTH_SHORT, true).show();
 
         }.addOnFailureListener { e ->
-
+            Toasty.error(this, e.message.toString(), Toast.LENGTH_SHORT, true).show();
 
         }
 
@@ -266,3 +278,5 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+
+

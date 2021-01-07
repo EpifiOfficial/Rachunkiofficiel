@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "839254553839",
+    "project_id": "rachunki-7e2df",
+    "storage_bucket": "rachunki-7e2df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839254553839:android:d3a4c7e2d2bf3b6bbcd71a",
+        "android_client_info": {
+          "package_name": "com.epifi.rachunkiofficiel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839254553839-5v2ik7kl0b32suk1odcvk6v91dehcp9p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4K8KCvo-AfW3rNoo8To9ry-NjIej4lKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839254553839-5v2ik7kl0b32suk1odcvk6v91dehcp9p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -9,8 +9,8 @@ class WalletViewModel: ViewModel() {
     private val repo = Repo()
     fun fetchWalletData():LiveData<MutableList<WalletModel>>{
         val mutableData =  MutableLiveData<MutableList<WalletModel>>()
-        repo.getWalletData().observeForever{
-            mutableData.value = it
+        repo.getWalletData().observeForever{ walletList->
+            mutableData.value = walletList
         }
         return mutableData
     }
