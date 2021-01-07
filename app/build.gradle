@@ -48,4 +48,16 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     //MultiSnap recyclerview
     implementation 'com.github.takusemba:multisnaprecyclerview:2.0.3'
+    //toasts
+    implementation 'com.github.GrenderG:Toasty:1.5.0'
+    //firebase BOM
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
+    //firebase analytics
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    //firebase FireStore
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.4.3'
+    //View model
+    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
+
+
 }

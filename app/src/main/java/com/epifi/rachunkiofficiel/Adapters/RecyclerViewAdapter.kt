@@ -1,6 +1,7 @@
 package com.epifi.rachunkiofficiel.Adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -8,32 +9,31 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.epifi.rachunkiofficiel.Models.WalletModel
 import com.epifi.rachunkiofficiel.R
 
 
-class RecyclerViewAdapter(
-    private val walletTitle: List<String>,
-    private val walletAmount: List<String>
-):RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
+class RecyclerViewAdapter(private val context:Context):RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
     var selectedItemPos = -1
     var lastItemSelectedPos = -1
+    private var walletsList = mutableListOf<WalletModel>()
+
+    fun setListWallets(wallets:MutableList<WalletModel>){
+        walletsList = wallets
+    }
+
+
     inner class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         val itemWalletTitle : TextView = itemView.findViewById(R.id.TvWalletTitle)
         val itemWalletAmount : TextView = itemView.findViewById(R.id.TvWalletAmount)
         val CVBackground: CardView = itemView.findViewById(R.id.CvWallet)
-/*
 
-        init {
-            selectedItemPos = adapterPosition
-            if(lastItemSelectedPos == -1)
-                lastItemSelectedPos = selectedItemPos
-            else {
-                notifyItemChanged(lastItemSelectedPos)
-                lastItemSelectedPos = selectedItemPos
-            }
-            notifyItemChanged(selectedItemPos)
+        fun bindView(wallet:WalletModel){
+            itemWalletTitle.text = wallet.walletTitle
+            itemWalletAmount.text = wallet.walletAmount
 
-          }*/
+
+}
 
     }
 
@@ -43,15 +43,10 @@ class RecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerViewAdapter.ViewHolder, position: Int) {
-        holder.itemWalletTitle.text = walletTitle[position]
-        holder.itemWalletAmount.text = walletAmount[position]
+        val wallet = walletsList[position]
+        holder.bindView(wallet)
 
-       /* if(position == selectedItemPos){
-            holder.CVBackground.setCardBackgroundColor(R.color.accentColorCreativeClicked)
-        } else{
-            holder.CVBackground.setCardBackgroundColor(R.color.accentColorCreative)
 
-        }*/
         if (selectedItemPos == position) {
             holder.CVBackground.setCardBackgroundColor(Color.parseColor("#9900BCD4"))
         } else{
@@ -69,7 +64,10 @@ class RecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int {
-       return walletTitle.size
+        return if (walletsList.size>0){
+            walletsList.size
+        }else{
+            0
+        }
     }
-
 }

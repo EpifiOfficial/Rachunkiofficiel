@@ -9,5 +9,8 @@
 
     <string name="date">mier,30 diciembre</string>
     <string name="amount">0$</string>
-    <string name="account_name">  account name</string>
+    <string name="account_name">account name</string>
+    <string name="income_note">income note</string>
+    <string name="fill_all_the_gaps">fill all the gaps</string>
+
 </resources>
