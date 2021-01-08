@@ -60,6 +60,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
     //FirebaseUI for Cloud Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:7.1.1'
+    //Firebase auth
+    implementation 'com.google.firebase:firebase-auth-ktx:20.0.1'
+
+
 
 
 }

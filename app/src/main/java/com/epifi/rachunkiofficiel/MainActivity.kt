@@ -1,28 +1,23 @@
 package com.epifi.rachunkiofficiel
 
 import android.os.Bundle
-import android.transition.Visibility
-import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.epifi.rachunkiofficiel.Adapters.RecyclerViewAdapter
 import com.epifi.rachunkiofficiel.Models.WalletViewModel
-import com.google.android.gms.common.api.internal.ActivityLifecycleObserver.of
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.takusemba.multisnaprecyclerview.MultiSnapHelper
 import es.dmoral.toasty.Toasty
-import java.security.AccessController.getContext
-import java.text.FieldPosition
-import java.time.OffsetTime
 import java.util.*
+import kotlin.concurrent.schedule
 
 
 class MainActivity : AppCompatActivity() {
@@ -53,41 +48,38 @@ class MainActivity : AppCompatActivity() {
     lateinit var EtNote :EditText
     lateinit var amount:String
     lateinit var btnFinish:Button
+    lateinit var btnOutcome:Button
+    lateinit var btnIncome:Button
+    lateinit var btnClose:TextView
+
 
     //adapter
     private lateinit var adapter: RecyclerViewAdapter
     //view model
     private val viewModel by lazy { ViewModelProviders.of(this).get(WalletViewModel::class.java) }
 
+    private lateinit var auth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init()
+        updateUI()
+
         FirebaseApp.initializeApp(this);
         val db = FirebaseFirestore.getInstance()
         numberinterface()
-        recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = adapter
         observeData()
         //Adding multisnap to the recyclerview
         val multiSnapHelper = MultiSnapHelper(MultiSnapHelper.DEFAULT_GRAVITY, 1, 200F)
         multiSnapHelper.attachToRecyclerView(recyclerView)
-        if (adapter.equals(null)){
-            //set layout visible
-            cellNewWallet.visibility = View.VISIBLE
-            newWallet()
-        }
-        //Button add wallet action
-        btnAddWallet.setOnClickListener {
-            //set layout visible
-            cellNewWallet.visibility = View.VISIBLE
-            newWallet()
-        }
+
         //Finish button
         btnFinish.setOnClickListener {
-            if (amount.isEmpty()&&EtNote.text.isEmpty()){
+            if (amount.isEmpty()||EtNote.text.isEmpty()){
                 Toasty.info(this, getString(R.string.fill_all_the_gaps), Toast.LENGTH_SHORT, true).show()
             }else{
                 postToList()
@@ -101,7 +93,29 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+        //Close new income cell button
+        btnClose.setOnClickListener {
+            //set layout invisible
+            cellNewWallet.visibility = View.INVISIBLE
+            amount="0"
+            textAmount.text = amount
+            EtNote.text.clear()
+            observeData()
+        }
 
+        Timer("SettingUp", false).schedule(5000) {
+            if (adapter.itemCount==0){
+                //set layout visible
+                cellNewWallet.visibility = View.VISIBLE
+                newWallet()
+            }
+            //Button add wallet action
+            btnAddWallet.setOnClickListener {
+                //set layout visible
+                cellNewWallet.visibility = View.VISIBLE
+                newWallet()
+            }
+        }
 
 
 
@@ -113,10 +127,12 @@ class MainActivity : AppCompatActivity() {
 
     fun observeData(){
 
+
         viewModel.fetchWalletData().observe(this, androidx.lifecycle.Observer {
             adapter.setListWallets(it)
             adapter.notifyDataSetChanged()
         })
+
 
     }
 
@@ -129,6 +145,10 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun init(){
+        // Initialize Firebase Auth
+        auth = Firebase.auth
+
+
         adapter = RecyclerViewAdapter(this)
         amount = ""
         recyclerView = findViewById<RecyclerView>(R.id.RVWallets)
@@ -150,6 +170,10 @@ class MainActivity : AppCompatActivity() {
         EtNote = findViewById(R.id.EtNote)
         textTitle = findViewById(R.id.TvTitle)
         textAmount = findViewById(R.id.TvAmount)
+        btnOutcome = findViewById(R.id.BtnOutcome)
+        btnIncome = findViewById(R.id.BtnIncome)
+        btnClose = findViewById(R.id.BtnClose)
+
 
 
     }
@@ -163,22 +187,23 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun postToList(){
-            addToList(EtNote.text.toString(),amount)
+            addToList(EtNote.text.toString(), amount)
 
 
     }
     private fun uploadToFirestore(){
         // Access a Cloud Firestore instance from your Activity
+        val uID = FirebaseAuth.getInstance().currentUser!!.uid
         val db = FirebaseFirestore.getInstance()
         val wallet = hashMapOf(
                 "WalletTitle" to EtNote.text.toString(),
-                "WalletAmount" to amount
+                "WalletAmount" to amount,
+                "WalletId" to uID + EtNote.text.toString()
         )
-
 
         // Add a new document with a generated ID
 
-        db.collection("Wallets").add(wallet).
+        db.collection("Wallets").document(uID+EtNote.text.toString()).set(wallet).
         addOnSuccessListener { documentReference ->
             Toasty.success(this, "Success!", Toast.LENGTH_SHORT, true).show();
 
@@ -270,7 +295,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateUI(){
+        val user = auth.currentUser
 
+        if(user==null){
+            auth.signInAnonymously()
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                             val usuario = auth.currentUser
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(baseContext, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show()
+                        }
+
+                        // ...
+                    }
+        }
+    }
 
 
 

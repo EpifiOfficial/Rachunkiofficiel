@@ -59,6 +59,7 @@ class RecyclerViewAdapter(private val context:Context):RecyclerView.Adapter<Recy
         holder.itemView.setOnClickListener {
             selectedItemPos = position
             notifyDataSetChanged()
+
         }
 
     }

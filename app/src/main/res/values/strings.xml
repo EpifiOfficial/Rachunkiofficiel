@@ -12,5 +12,6 @@
     <string name="account_name">account name</string>
     <string name="income_note">income note</string>
     <string name="fill_all_the_gaps">fill all the gaps</string>
-
+    <string name="userNameKeySharedPreference">userNameKeySharedPreference</string>
+    <string name="close">X</string>
 </resources>

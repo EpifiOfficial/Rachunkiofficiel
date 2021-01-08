@@ -75,6 +75,7 @@
             android:layout_marginBottom="10dp"
             >
             <Button
+                android:id="@+id/BtnOutcome"
                 android:layout_margin="10dp"
                 android:layout_weight="0.5"
                 android:layout_width="match_parent"
@@ -86,7 +87,10 @@
                 android:textAllCaps="false"
                 android:textSize="18sp"
                 />
+
+
             <Button
+                android:id="@+id/BtnIncome"
                 android:layout_weight="0.5"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -97,8 +101,9 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:textAllCaps="false"
                 android:textSize="18sp"
-
                 />
+
+
         </LinearLayout>
     </RelativeLayout>
 
