@@ -40,37 +40,41 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             />
-       <!-- <LinearLayout
-            android:id="@+id/LlWallets"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/TvWallets"
-            android:orientation="horizontal">
+        <!-- <LinearLayout
+             android:id="@+id/LlWallets"
+             android:layout_centerHorizontal="true"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@id/TvWallets"
+             android:orientation="horizontal">
 
-            <include layout="@layout/cell_wallet"/>
-            <include layout="@layout/cell_wallet"/>
-            <include layout="@layout/cell_wallet"/>
+             <include layout="@layout/cell_wallet"/>
+             <include layout="@layout/cell_wallet"/>
+             <include layout="@layout/cell_wallet"/>
 
-        </LinearLayout>
-        -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/PieChart"
+         </LinearLayout>
+         -->
+        <app.futured.donut.DonutProgressView
+            android:id="@+id/DonutChart"
             android:layout_below="@id/RVWallets"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            app:cardCornerRadius="360dp"
+            app:donut_bgLineColor="#EAEAEA"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            app:cardElevation="1dp"
-            />
+            app:donut_gapWidth="20"
+            app:donut_gapAngle="270"
+            app:donut_animateChanges="true"
+            app:donut_animationDuration="3000"
+            app:donut_strokeWidth="16dp"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1"
-            android:layout_below="@id/PieChart"
+            android:layout_below="@id/DonutChart"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             >

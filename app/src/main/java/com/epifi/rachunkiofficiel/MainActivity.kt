@@ -1,12 +1,15 @@
 package com.epifi.rachunkiofficiel
 
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import app.futured.donut.DonutProgressView
 import com.epifi.rachunkiofficiel.Adapters.RecyclerViewAdapter
 import com.epifi.rachunkiofficiel.Models.WalletViewModel
 import com.google.firebase.FirebaseApp
@@ -51,6 +54,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnOutcome:Button
     lateinit var btnIncome:Button
     lateinit var btnClose:TextView
+    lateinit var donutChart:DonutProgressView
 
 
     //adapter
@@ -72,7 +76,6 @@ class MainActivity : AppCompatActivity() {
         numberinterface()
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = adapter
-        observeData()
         //Adding multisnap to the recyclerview
         val multiSnapHelper = MultiSnapHelper(MultiSnapHelper.DEFAULT_GRAVITY, 1, 200F)
         multiSnapHelper.attachToRecyclerView(recyclerView)
@@ -103,7 +106,7 @@ class MainActivity : AppCompatActivity() {
             observeData()
         }
 
-        Timer("SettingUp", false).schedule(5000) {
+        Handler().postDelayed({
             if (adapter.itemCount==0){
                 //set layout visible
                 cellNewWallet.visibility = View.VISIBLE
@@ -115,9 +118,25 @@ class MainActivity : AppCompatActivity() {
                 cellNewWallet.visibility = View.VISIBLE
                 newWallet()
             }
-        }
+        }, 5000)
+        /* Timer().schedule(5000){
+
+         }*/
 
 
+
+        //Donut chart
+        donutChart.addAmount(
+            sectionName = "income",
+            amount = 2000f,
+            color = Color.parseColor("#00BCD4") // Optional, pass color if you want to create new section
+        )
+        donutChart.addAmount(
+            sectionName = "outcome",
+            amount = 300f,
+            color = Color.parseColor("#FF4081")
+
+        )
 
 
 
@@ -148,7 +167,7 @@ class MainActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = Firebase.auth
 
-
+        donutChart = findViewById(R.id.DonutChart)
         adapter = RecyclerViewAdapter(this)
         amount = ""
         recyclerView = findViewById<RecyclerView>(R.id.RVWallets)
@@ -187,7 +206,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun postToList(){
-            addToList(EtNote.text.toString(), amount)
+        addToList(EtNote.text.toString(), amount)
 
 
     }
@@ -196,9 +215,9 @@ class MainActivity : AppCompatActivity() {
         val uID = FirebaseAuth.getInstance().currentUser!!.uid
         val db = FirebaseFirestore.getInstance()
         val wallet = hashMapOf(
-                "WalletTitle" to EtNote.text.toString(),
-                "WalletAmount" to amount,
-                "WalletId" to uID + EtNote.text.toString()
+            "WalletTitle" to EtNote.text.toString(),
+            "WalletAmount" to amount,
+            "WalletId" to uID + EtNote.text.toString()
         )
 
         // Add a new document with a generated ID
@@ -300,19 +319,22 @@ class MainActivity : AppCompatActivity() {
 
         if(user==null){
             auth.signInAnonymously()
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                             val usuario = auth.currentUser
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        val usuario = auth.currentUser
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(baseContext, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show()
-                        }
-
-                        // ...
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(baseContext, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show()
                     }
+
+                    // ...
+                }
+        }else{
+            observeData()
+
         }
     }
 
@@ -322,5 +344,4 @@ class MainActivity : AppCompatActivity() {
 
 
 }
-
 

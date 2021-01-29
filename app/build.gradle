@@ -62,6 +62,8 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-firestore:7.1.1'
     //Firebase auth
     implementation 'com.google.firebase:firebase-auth-ktx:20.0.1'
+    //donut Chart
+    implementation("app.futured.donut:library:2.1.0")
 
 
 
