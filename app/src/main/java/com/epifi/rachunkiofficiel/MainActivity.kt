@@ -138,6 +138,15 @@ class MainActivity : AppCompatActivity() {
 
         )
 
+        btnIncome.setOnClickListener {
+
+
+
+        }
+        btnOutcome.setOnClickListener {
+
+        }
+
 
 
 

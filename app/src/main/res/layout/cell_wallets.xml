@@ -12,6 +12,7 @@
 
 
         <Button
+            android:visibility="gone"
             android:id="@+id/BtnAddWallet"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -20,6 +21,7 @@
             android:layout_alignParentTop="true"
             android:layout_margin="10dp"
             />
+
         <TextView
             android:id="@+id/TvWallets"
             android:layout_width="wrap_content"
@@ -31,6 +33,7 @@
             android:layout_marginStart="15dp"
             android:layout_alignParentTop="true"
             android:text="@string/wallets" />
+
         <!-- Wallets cells -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RVWallets"
@@ -40,6 +43,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             />
+
         <!-- <LinearLayout
              android:id="@+id/LlWallets"
              android:layout_centerHorizontal="true"
@@ -54,6 +58,7 @@
 
          </LinearLayout>
          -->
+
         <app.futured.donut.DonutProgressView
             android:id="@+id/DonutChart"
             android:layout_below="@id/RVWallets"
@@ -67,7 +72,6 @@
             app:donut_animateChanges="true"
             app:donut_animationDuration="3000"
             app:donut_strokeWidth="16dp"/>
-
 
         <LinearLayout
             android:layout_width="match_parent"
