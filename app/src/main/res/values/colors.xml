@@ -20,11 +20,14 @@
     <color name="darkThemeColorPrimaryDark">#2F3158</color>
 
     -----White theme Colors-----
-    <color name="whiteThemeColorPrimary">#ffffff</color>
-    <color name="whiteThemeColorPrimaryDark">#C0C0C0</color>
+    <!---<color name="whiteThemeColorPrimary">#ffffff</color>-->
+    <color name="whiteThemeColorPrimary">#3B3E72</color>
+    <!--<color name="whiteThemeColorPrimaryDark">#C0C0C0</color>-->
+    <color name="whiteThemeColorPrimaryDark">#0D1533</color>
 
     -----Text colors light theme-----
     <color name="primaryText">#151A3C</color>
+    <color name="primaryTextDarkTheme">#D1D4E7</color>
     <color name="secondaryText">#99151A3C</color>
     <color name="walletTitleText">#99FFFFFF</color>
 

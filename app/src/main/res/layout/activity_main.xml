@@ -4,12 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkThemeColorPrimary"
+    android:background="#0D1533"
     tools:context=".MainActivity">
-
-
-
-
 
     <com.polyak.iconswitch.IconSwitch
         android:id="@+id/Switch"
@@ -39,34 +35,75 @@
 
 
 <RelativeLayout
+    android:id="@+id/RlWalletsCell"
     android:layout_below="@id/Logo"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
+    android:visibility="invisible"
     >
+
+
     <include layout="@layout/cell_wallets"/>
 
 </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/RlNewWallet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:id="@+id/RlNewWallet1"
         android:background="#991C2754"
-        android:visibility="gone"
+
         >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="5dp"
-            >
-            <include layout="@layout/cell_new_income"/>
 
-        </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/RlNewWallet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="70dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:visibility="invisible"
+                >
+                <include layout="@layout/cell_new_transaction"/>
+
+
+            </RelativeLayout>
+            <com.github.ybq.android.spinkit.SpinKitView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/loadingSKV"
+                style="@style/SpinKitView.WanderingCubes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:SpinKit_Color="@color/accentColorCreative"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/RlNewWallet"
+                android:layout_marginTop="20dp"
+                />
+
+
+
+
     </RelativeLayout>
-
+    <com.github.ybq.android.spinkit.SpinKitView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/loading2SKV"
+        style="@style/SpinKitView.WanderingCubes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:SpinKit_Color="@color/accentColorCreative"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        />
 
 </RelativeLayout>

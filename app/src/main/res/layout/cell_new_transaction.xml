@@ -6,6 +6,7 @@
     app:cardCornerRadius="2dp"
     android:layout_marginEnd="5dp"
     android:layout_marginStart="5dp"
+    app:cardBackgroundColor="#1C2754"
     >
 
     <RelativeLayout
@@ -28,17 +29,19 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/btn_check"
+            android:elevation="10dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_margin="10dp"
             />
+
         <TextView
             android:id="@+id/TvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/new_income"
             android:fontFamily="@font/montserrat_bold"
-            android:textColor="@color/primaryText"
+            android:textColor="#C7CAE0"
             android:textSize="27sp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
@@ -50,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/date"
-            android:textColor="@color/secondaryText"
+            android:textColor="#D1D4E7"
             android:textSize="15sp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/TvTitle"
@@ -80,10 +83,12 @@
             android:layout_below="@id/TvAmount"
             android:layout_marginTop="20dp"
             app:cardElevation="5dp"
+            app:cardBackgroundColor="#3B3E72"
             >
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
 
                 <EditText
                     android:id="@+id/EtNote"
@@ -92,13 +97,12 @@
                     android:hint="@string/account_name"
                     android:background="@color/blurry_background"
                     android:layout_margin="10dp"
-                    android:textColorHint="@color/secondaryText"
+                    android:textColorHint="#C7CAE0"
+                    android:textColor="#C7CAE0"
                     android:fontFamily="@font/montserrat_bold"
                     android:paddingStart="16dp"
                     android:textSize="17sp"
                     />
-
-
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

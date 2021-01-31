@@ -1,8 +1,10 @@
 package com.epifi.rachunkiofficiel
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.transition.Visibility
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.futured.donut.DonutProgressView
 import com.epifi.rachunkiofficiel.Adapters.RecyclerViewAdapter
 import com.epifi.rachunkiofficiel.Models.WalletViewModel
+import com.github.ybq.android.spinkit.SpinKitView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -30,10 +33,13 @@ class MainActivity : AppCompatActivity() {
     private var titleList = mutableListOf<String>()
     private var amountList = mutableListOf<String>()
 
+
     //widgets
     lateinit var recyclerView:RecyclerView
     lateinit var btnAddWallet:Button
     lateinit var cellNewWallet:RelativeLayout
+    lateinit var rlCellNewWallet:RelativeLayout
+    lateinit var cellWallets:RelativeLayout
     lateinit var btn1 :Button
     lateinit var btn2 :Button
     lateinit var btn3 :Button
@@ -55,6 +61,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnIncome:Button
     lateinit var btnClose:TextView
     lateinit var donutChart:DonutProgressView
+    lateinit var loading:SpinKitView
+    lateinit var loading2:SpinKitView
+
+    var n:Int = 0
 
 
     //adapter
@@ -71,6 +81,9 @@ class MainActivity : AppCompatActivity() {
         init()
         updateUI()
 
+
+
+
         FirebaseApp.initializeApp(this);
         val db = FirebaseFirestore.getInstance()
         numberinterface()
@@ -82,24 +95,38 @@ class MainActivity : AppCompatActivity() {
 
         //Finish button
         btnFinish.setOnClickListener {
-            if (amount.isEmpty()||EtNote.text.isEmpty()){
-                Toasty.info(this, getString(R.string.fill_all_the_gaps), Toast.LENGTH_SHORT, true).show()
-            }else{
-                postToList()
-                uploadToFirestore()
-                //set layout invisible
-                cellNewWallet.visibility = View.INVISIBLE
-                amount="0"
-                textAmount.text = amount
-                EtNote.text.clear()
-                observeData()
+            //Depending of the number indicate from which action is coming
+            if(n==1){
+                if (amount.isEmpty()||EtNote.text.isEmpty()){
+                    Toasty.info(this, getString(R.string.fill_all_the_gaps), Toast.LENGTH_SHORT, true).show()
+                }else{
+                    postToList()
+                    loading.visibility= View.VISIBLE
+                    uploadToFirestore()
+                    //set layout invisible
+
+                    cellNewWallet.visibility = View.INVISIBLE
+                    rlCellNewWallet.visibility = View.INVISIBLE
+                    amount="0"
+                    textAmount.text = amount
+                    EtNote.text.clear()
+                    observeData()
+
+                }
+
+            }else if (n==2){
+                
+            }else if(n==3){
 
             }
+
+
         }
         //Close new income cell button
         btnClose.setOnClickListener {
             //set layout invisible
             cellNewWallet.visibility = View.INVISIBLE
+            rlCellNewWallet.visibility = View.INVISIBLE
             amount="0"
             textAmount.text = amount
             EtNote.text.clear()
@@ -110,17 +137,22 @@ class MainActivity : AppCompatActivity() {
             if (adapter.itemCount==0){
                 //set layout visible
                 cellNewWallet.visibility = View.VISIBLE
+                rlCellNewWallet.visibility = View.VISIBLE
+
                 newWallet()
+                n=1;
+
             }
             //Button add wallet action
             btnAddWallet.setOnClickListener {
                 //set layout visible
                 cellNewWallet.visibility = View.VISIBLE
+                rlCellNewWallet.visibility = View.VISIBLE
                 newWallet()
+                n=1;
             }
         }, 5000)
         /* Timer().schedule(5000){
-
          }*/
 
 
@@ -139,12 +171,12 @@ class MainActivity : AppCompatActivity() {
         )
 
         btnIncome.setOnClickListener {
-
+            newIncome()
 
 
         }
         btnOutcome.setOnClickListener {
-
+            newOutcome()
         }
 
 
@@ -157,6 +189,10 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel.fetchWalletData().observe(this, androidx.lifecycle.Observer {
+            cellWallets.visibility = View.VISIBLE
+            //loading.visibility = View.INVISIBLE
+            loading2.visibility = View.INVISIBLE
+
             adapter.setListWallets(it)
             adapter.notifyDataSetChanged()
         })
@@ -176,12 +212,19 @@ class MainActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = Firebase.auth
 
+
+
+        loading = findViewById<SpinKitView>(R.id.loadingSKV)
+        loading2 = findViewById<SpinKitView>(R.id.loading2SKV)
+
         donutChart = findViewById(R.id.DonutChart)
         adapter = RecyclerViewAdapter(this)
         amount = ""
         recyclerView = findViewById<RecyclerView>(R.id.RVWallets)
         btnAddWallet = findViewById<Button>(R.id.BtnAddWallet)
         cellNewWallet = findViewById<RelativeLayout>(R.id.RlNewWallet)
+        cellWallets = findViewById<RelativeLayout>(R.id.RlWalletsCell)
+        rlCellNewWallet = findViewById<RelativeLayout>(R.id.RlNewWallet1)
         btn1 = findViewById(R.id.Btn1)
         btn2 = findViewById(R.id.Btn2)
         btn3 = findViewById(R.id.Btn3)
@@ -234,7 +277,8 @@ class MainActivity : AppCompatActivity() {
         db.collection("Wallets").document(uID+EtNote.text.toString()).set(wallet).
         addOnSuccessListener { documentReference ->
             Toasty.success(this, "Success!", Toast.LENGTH_SHORT, true).show();
-
+            n=0;
+            loading.visibility = View.INVISIBLE
         }.addOnFailureListener { e ->
             Toasty.error(this, e.message.toString(), Toast.LENGTH_SHORT, true).show();
 
@@ -249,6 +293,13 @@ class MainActivity : AppCompatActivity() {
         textTitle.text = getString(R.string.new_income)
         EtNote.hint = getString(R.string.income_note)
     }
+    @SuppressLint("ResourceAsColor")
+    private fun newOutcome(){
+        textTitle.text = getString(R.string.new_outcome)
+        EtNote.hint = getString(R.string.outcome_note)
+        textAmount.setTextColor(R.color.accentColorDestructive)
+    }
+
     private fun newWallet(){
         textTitle.text = getString(R.string.new_account)
         EtNote.hint = getString(R.string.account_name)

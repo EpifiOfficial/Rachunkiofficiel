@@ -12,6 +12,8 @@ class WalletViewModel: ViewModel() {
         repo.getWalletData().observeForever{ walletList->
             mutableData.value = walletList
         }
+
         return mutableData
+
     }
 }
