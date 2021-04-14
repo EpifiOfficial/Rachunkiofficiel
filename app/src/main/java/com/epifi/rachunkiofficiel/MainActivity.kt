@@ -1,9 +1,11 @@
 package com.epifi.rachunkiofficiel
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.preference.PreferenceManager
 import android.transition.Visibility
 import android.view.View
 import android.widget.*
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var donutChart:DonutProgressView
     lateinit var loading:SpinKitView
     lateinit var loading2:SpinKitView
-
+    lateinit var pref: SharedPreferences
     var n:Int = 0
 
 
@@ -80,10 +82,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         init()
         updateUI()
-
-
-
-
+        pref = PreferenceManager.getDefaultSharedPreferences(this)
         FirebaseApp.initializeApp(this);
         val db = FirebaseFirestore.getInstance()
         numberinterface()
@@ -97,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         btnFinish.setOnClickListener {
             //Depending of the number indicate from which action is coming
             if(n==1){
+                //for create an account
                 if (amount.isEmpty()||EtNote.text.isEmpty()){
                     Toasty.info(this, getString(R.string.fill_all_the_gaps), Toast.LENGTH_SHORT, true).show()
                 }else{
@@ -115,8 +115,22 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }else if (n==2){
-                
+                //for add an icnome
+
+             if (amount.isEmpty()||EtNote.text.isEmpty()){
+
+                Toasty.info(this, getString(R.string.fill_all_the_gaps), Toast.LENGTH_SHORT, true).show()
+             }
+             else{
+
+
+             }
+
             }else if(n==3){
+                //for add an outcome
+
+
+
 
             }
 
@@ -156,26 +170,38 @@ class MainActivity : AppCompatActivity() {
          }*/
 
 
+        val walletIncome = pref.getFloat("walletIncome",0f)
 
         //Donut chart
         donutChart.addAmount(
             sectionName = "income",
-            amount = 2000f,
+            amount = walletIncome.toFloat(),
             color = Color.parseColor("#00BCD4") // Optional, pass color if you want to create new section
+
         )
+        val walletOutcome = pref.getInt("walletOutcome",0)
         donutChart.addAmount(
             sectionName = "outcome",
-            amount = 300f,
+            amount = walletOutcome.toFloat(),
             color = Color.parseColor("#FF4081")
-
         )
 
+
         btnIncome.setOnClickListener {
+            //set layout visible
+            cellNewWallet.visibility = View.VISIBLE
+            rlCellNewWallet.visibility = View.VISIBLE
+
             newIncome()
+            n=3
 
 
         }
         btnOutcome.setOnClickListener {
+            //set layout visible
+            cellNewWallet.visibility = View.VISIBLE
+            rlCellNewWallet.visibility = View.VISIBLE
+            n=2
             newOutcome()
         }
 
@@ -213,10 +239,8 @@ class MainActivity : AppCompatActivity() {
         auth = Firebase.auth
 
 
-
         loading = findViewById<SpinKitView>(R.id.loadingSKV)
         loading2 = findViewById<SpinKitView>(R.id.loading2SKV)
-
         donutChart = findViewById(R.id.DonutChart)
         adapter = RecyclerViewAdapter(this)
         amount = ""
@@ -244,9 +268,6 @@ class MainActivity : AppCompatActivity() {
         btnOutcome = findViewById(R.id.BtnOutcome)
         btnIncome = findViewById(R.id.BtnIncome)
         btnClose = findViewById(R.id.BtnClose)
-
-
-
     }
 
 
@@ -262,6 +283,53 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+    private  fun uploadOutcomeToFirestore(){
+        val db= FirebaseFirestore.getInstance()
+        val outcome = hashMapOf(
+                "outcomeNote" to EtNote.text.toString(),
+                "outcomeAmount" to amount,
+                "outcomeId" to EtNote.text.toString()
+        )
+        pref.edit().putFloat("WallOutcome",amount.toFloat()).apply()
+        db.collection("Outcomes").document(EtNote.text.toString()+amount).set(outcome).
+                addOnSuccessListener { documentReference->
+                    Toasty.success(this,"Success!",Toast.LENGTH_SHORT,true).show()
+                    n=0
+                    pref.edit().putFloat("walletOutcome",amount.toFloat()).apply()
+                    loading.visibility = View.INVISIBLE
+                }.addOnFailureListener { e->
+            Toasty.error(this,e.message.toString(),Toast.LENGTH_SHORT,true).show()
+
+        }
+
+
+
+    }
+    private fun uploadIncomeToFirestore(){
+        val uID = FirebaseAuth.getInstance().currentUser!!.uid
+        val db = FirebaseFirestore.getInstance()
+        val income = hashMapOf(
+                "incomeNote" to EtNote.text.toString(),
+                "incomeAmount" to amount,
+                "incomeId" to EtNote.text.toString()
+
+        )
+        pref.edit().putFloat("WalletIncome",amount.toFloat()).apply()
+
+
+        db.collection("Incomes").document(EtNote.text.toString()+amount).set(income).
+        addOnSuccessListener { documentReference ->
+            Toasty.success(this, "Success!", Toast.LENGTH_SHORT, true).show();
+            n=0;
+            pref.edit().putFloat("walletIncome",amount.toFloat()).apply()
+            loading.visibility = View.INVISIBLE
+        }.addOnFailureListener { e ->
+            Toasty.error(this, e.message.toString(), Toast.LENGTH_SHORT, true).show();
+        }
+
+    }
+
+
     private fun uploadToFirestore(){
         // Access a Cloud Firestore instance from your Activity
         val uID = FirebaseAuth.getInstance().currentUser!!.uid
@@ -278,15 +346,11 @@ class MainActivity : AppCompatActivity() {
         addOnSuccessListener { documentReference ->
             Toasty.success(this, "Success!", Toast.LENGTH_SHORT, true).show();
             n=0;
+            pref.edit().putString("walletId",EtNote.text.toString()).apply()
             loading.visibility = View.INVISIBLE
         }.addOnFailureListener { e ->
             Toasty.error(this, e.message.toString(), Toast.LENGTH_SHORT, true).show();
-
         }
-
-
-
-
     }
 
     private fun newIncome(){
